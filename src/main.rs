@@ -93,10 +93,10 @@ pub fn infix_to_postfix(input: &str) {
           },
           ')' => {
               // Handle closing parenthesis
-              if let Some(popped_item) = op_stack.pop() {
+              while let Some(popped_item) = op_stack.pop() {
                   match popped_item {
-                      // '(' => break,
-                      '(' => (),
+                       '(' => break,
+                    //   '(' => (),
                       _ => println!("{popped_item}")
                   }
               }
