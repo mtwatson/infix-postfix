@@ -29,11 +29,11 @@ impl<T> Stack<T> {
   }
 }
 
-fn precedence(op: char) -> Option<u8> {
+fn precedence(op: char) -> u8 {
   match op {
-    '+' | '-' => Some(1),
-    '*' | '/' => Some(2),
-    _ => None,
+    '+' | '-' => 1,
+    '*' | '/' => 2,
+    _ => 0,
   }
 }
 
@@ -47,24 +47,48 @@ pub fn infix_to_postfix(input: &str) {
   for entry in &char_array {
       match entry {
           '+' | '-' | '/' | '*' => {
-            let next_op = op_stack.peek(); 
+            let mut next_op = op_stack.peek();
             // Handle operators
 
             if op_stack.is_empty() || next_op == Some(&'(') {
               op_stack.push(*entry);
             } else {
-              let op = *next_op.unwrap();
-              let entry_precedence = precedence(*entry);
-              let stack_top_precendence = precedence(op);
+                loop {
+                  if let Some(value) = next_op {
+                    //   println!("=========");
+                    //   println!("{value}");
+                    //   println!("=========");
+                      let entry_precedence = precedence(*entry);
+                      let stack_top_precendence = precedence(*value);
+                    //   println!("{stack_top_precendence}");
+                      
+                      if stack_top_precendence >= entry_precedence {
+                        let popped_item = op_stack.pop().unwrap();
+                        next_op = op_stack.peek();
+                        println!("{popped_item} ");
+                        // break;
+                      } else {
+                          op_stack.push(*entry);
+                          break
+                      }
+                  } else {
+                      op_stack.push(*entry);
+                      break
+                  }
+                }
+            //   let op = *next_op.unwrap();
+            //   let entry_precedence = precedence(*entry);
+            //   let stack_top_precendence = precedence(op);
 
-              if stack_top_precendence >= entry_precedence {
-                let popped_item = op_stack.pop().unwrap();
-                println!("{popped_item} ");
+            //   if stack_top_precendence >= entry_precedence {
+            //     let popped_item = op_stack.pop().unwrap();
+            //     println!("{popped_item} ");
                 // break;
-              } else {
-                op_stack.push(*entry);
-                // break;
-              }
+            //   } 
+            //   else {
+            //     op_stack.push(*entry);
+            //     // break;
+            //   }
             }
           },
           ')' => {
