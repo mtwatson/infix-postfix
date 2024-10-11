@@ -86,6 +86,10 @@ pub fn infix_to_postfix(input: &str) {
           }
       }
   }
+  // Second phase: Process the stack while mutating it
+  while let Some(entry) = op_stack.pop() {
+    println!("{entry}");
+  }
 }
 
 pub fn infix_to_postfix2(input: &str) {
@@ -141,10 +145,6 @@ pub fn infix_to_postfix2(input: &str) {
       }
   }
 
-  // Second phase: Process the stack while mutating it
-  // while let Some(entry) = op_stack.pop() {
-  //   println!("{entry}");
-  // }
 }
 
 fn main() {
