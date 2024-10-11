@@ -148,7 +148,6 @@ pub fn infix_to_postfix2(input: &str) {
 }
 
 fn main() {
-    // infix_to_postfix("todd");
     // infix_to_postfix("1+2*3-4");
 
     println!("======================");
